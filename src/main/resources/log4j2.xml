@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--log4j本身日志打印级别为warn，每隔600秒重新读取配置文件-->
+<configuration status="WARN" monitorInterval="600">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss:SSS} [%t] %-5level %logger{36} %msg%n"/>
+        </Console>
+<!--        输出日志到E:\IDEA\cardSSM\log/test.log中-->
+        <File name="MyFile" filename="E:\IDEA\cardSSM\log/test.log">
+<!--            日志输出布局格式-->
+<!--            %d{HH:mm:ss.SSS} 表示输出到毫秒的时间-->
+<!--            %t 输出当前线程名称-->
+<!--            %-5level 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0-->
+<!--            %logger 输出logger名称，Root Logger没有名称，所以没有输出-->
+<!--            %msg 日志文本-->
+<!--            %n 换行-->
+            <PatternLayout pattern="%d{HH:mm:ss:SSS} [%t] %-5level %logger{36} %msg%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+<!--        additivity属性是子Logger 是否继承 父Logger 的 输出源（appender）的标志位。具体说，默认情况下子Logger会-->
+<!--        继承父Logger的appender，也就是说子Logger会在父Logger的appender里输出。若是additivity设为false，则子-->
+<!--        Logger只会在自己的appender里输出，而不会在父Logger的appender里输出。-->
+        <Logger name="mylog" level="TRACE" additivity="false">
+            <AppenderRef ref="MyFile"/>
+        </Logger>
+        <Root level="ERROR">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</configuration>

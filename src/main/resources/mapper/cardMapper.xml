@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace指定为mapper的接口类-->
+<mapper namespace="com.ywb.dao.CardDao">
+<!--在主键时自增的情况下，useGeneratedKeys设为true后才可以直接使用主键值，keyProperty的值是对象的属性值而不是数据库表中的字段名-->
+<!--    keyColumn用于指定数据库表的主键，如果已经在数据库表中指定了主键，则可以省略-->
+    <insert id="add" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into card(name, QQ, job, date, school, number_online, daily_link, oath, brother, where_know)
+         values(#{name}, #{QQ}, #{job}, #{date}, #{school}, #{number_online}, #{daily_link}, #{oath}, #{brother},
+         #{where_know})
+    </insert>
+    <delete id="del" parameterType="Integer">
+        delete from card where id=#{id}
+    </delete>
+    <update id="update" parameterType="User">
+        update card set update_at=#{update_at},name=#{name}, QQ=#{QQ}, job=#{job},
+         date=#{date}, school=#{school}, number_online=#{number_online}, daily_link=#{daily_link}, oath=#{oath},
+          brother=#{brother}, where_know=#{where_know} where id=#{id}
+    </update>
+    <select id="getAll" resultType="User">
+        select * from card
+    </select>
+    <select id="selectById" resultType="User" parameterType="Integer">
+        select * from card where id=#{id}
+    </select>
+<!--    使用mybatis传参数时，在xml文件中应该使用_parameter代替参数名-->
+    <select id="selectByName" resultType="User" parameterType="String">
+        select * from card
+--         在下列语句最前端加上where，去除第一句语句前的and或or
+        <trim prefix="where" prefixOverrides="and | or">
+--         判断是否为空格需要空格加上.toString()转换为字符串
+            <if test="_parameter != null and _parameter != ' '.toString()">
+                and name = #{name}
+            </if>
+        </trim>
+    </select>
+    <select id="selectByNumber" resultType="User" parameterType="int">
+        select * from card
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="number_online != null and number_online != ' '">
+                and number_online = #{number_online}
+            </if>
+        </trim>
+    </select>
+    <select id="count" resultType="int">
+        select count(*) from card
+    </select>
+</mapper>
