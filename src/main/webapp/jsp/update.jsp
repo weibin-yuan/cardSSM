@@ -14,7 +14,7 @@
 <body>
 <div style="text-align: center;margin-top:40px">
     <%--action规定当提交表单时向何处发送表单数据--%>
-    <form action="/cards/${id}" method="post">
+    <form action="cards/${id}" method="post">
         <h3>添加</h3>
 <%--        创建时间：<input name="create_at" value="${user.create_at}" type="text"><br/>--%>
 <%--        更新时间：<input name="update_at" value="${user.update_at}" type="text"><br/>--%>

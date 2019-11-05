@@ -18,11 +18,11 @@ import java.util.List;
  * @date:
  * @version: V1.0
  */
-@Controller
+@RestController
 public class CardController {
     @Autowired
     CardService cardService;
-    @GetMapping("/cards")
+    @GetMapping("cards")
     public ModelAndView cardList() {
         //获取到查询的数据
         List<User> cardList = cardService.getAll();
@@ -32,24 +32,24 @@ public class CardController {
         mav.setViewName("cardList");
         return mav;
     }
-    @GetMapping("/cards/card")
+    @GetMapping("cards/card")
     public ModelAndView addGo(ModelAndView mav) {
         mav.setViewName("add");
         return mav;
     }
-    @PostMapping("/cards")
+    @PostMapping("cards")
     public ModelAndView add(User user) {
         cardService.add(user);
         ModelAndView mav = new ModelAndView("redirect:/cards");
         return mav;
     }
-    @DeleteMapping("/cards/{id}")
+    @DeleteMapping("cards/{id}")
     public ModelAndView del(@PathVariable Integer id) {
         cardService.del(id);
         ModelAndView mav = new ModelAndView("redirect:/cards");
         return mav;
     }
-    @GetMapping("/cards/{id}")
+    @GetMapping("cards/{id}")
     public ModelAndView updateGo(@PathVariable Integer id) {
         User user = cardService.selectById(id);
         ModelAndView mav = new ModelAndView("update");
@@ -64,7 +64,7 @@ public class CardController {
     }
 
 //    //在json页面显示设置的json格式数据
-//    @GetMapping("/cards/json")
+//    @GetMapping("cards/json")
 //    public ModelAndView json(ModelAndView mav) {
 //        User user = new User();
 //        user.setId(19);
@@ -76,7 +76,7 @@ public class CardController {
 //    }
 //
 //    //在add页面添加数据,在json页面显示添加的json格式数据
-//    @PostMapping("/cards/json")
+//    @PostMapping("cards/json")
 //    //@ModelAttribute通常用在Controller方法注解中，用于解释model entity。此时分两种情况：从Model中获取或者从Form表单/URL
 //    //参数中获取，如果是后者，则不添加此注释也能拿到对象
 //    public ModelAndView addJson(@ModelAttribute User user) {
