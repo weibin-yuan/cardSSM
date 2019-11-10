@@ -30,4 +30,40 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- hibernate validator 校验器 -->
+    <!-- 注册校验器 -->
+    <mvc:annotation-driven validator="validator"/>
+    <!-- 配置校验器 -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <!-- 校验器，使用hibernate校验器 -->
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <!-- 指定校验使用的资源文件，在文件中配置校验错误信息，如果不指定则默认使用classpath下面的ValidationMessages.properties文件 -->
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <!--注册类型转换服务Bean，此处可省略-->
+<!--    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean"></bean>-->
+
+    <!-- 将校验器注入处理适配器中 ，此处可省略-->
+<!--    <mvc:annotation-driven conversion-service="conversionService" validator="validator"></mvc:annotation-driven>-->
+    <!-- 国际化配置start -->
+    <!-- 主要用于获取请求中的locale信息，将其转为Locale对像，获取LocaleResolver对象-->
+    <mvc:interceptors>
+        <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+    </mvc:interceptors>
+    <!-- 校验错误信息配置文件 -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <!-- 表示语言配置文件是以language开头的文件（ValidationMessages_zh_CN.properties）-->
+        <property name="basename" value="ValidationMessages"/>
+        <!-- 对资源文件内容缓存时间，单位秒 -->
+        <property name="cacheSeconds" value="120"/>
+        <!-- 资源文件编码格式 -->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 语言区域里没有找到对应的国际化文件时，默认使用language.properties文件-->
+        <property name="useCodeAsDefaultMessage" value="true" />
+    </bean>
+
+    <!-- 配置SessionLocaleResolver用于将Locale对象存储于Session中供后续使用 -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+    <!-- 国际化配置end -->
 </beans>

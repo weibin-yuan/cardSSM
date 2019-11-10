@@ -1,5 +1,9 @@
 package com.ywb.pojo;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,8 +11,15 @@ public class User {
     private Integer id;
     private long create_at;
     private long update_at;
+    //非空校验，长度校验（1-20)
+    @NotBlank(message = "{student.name.isNull}")
+    @Size(min = 1, max = 20, message = "{student.name.length.error}")
     private String name;
-    private long QQ;
+    //非空校验
+    @NotNull(message = "{student.QQ.isNull}")
+    private Integer QQ;
+    //非空校验
+    @NotBlank(message = "{student.job.isNull}")
     private String job;
     private long date;
     private String school;
@@ -19,7 +30,7 @@ public class User {
     private String where_know;
     public User(){
     }
-    public User(String name, long QQ, String job, String school,
+    public User(String name, Integer QQ, String job, String school,
                 int number_online, String daily_link, String oath, String brother,
                 String where_know, long date, long create_at, long update_at) {
         this.name = name;
@@ -83,10 +94,10 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-    public long getQQ() {
+    public Integer getQQ() {
         return QQ;
     }
-    public void setQQ(long QQ) {
+    public void setQQ(Integer QQ) {
         this.QQ = QQ;
     }
     public String getJob() {

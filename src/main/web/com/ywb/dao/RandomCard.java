@@ -33,9 +33,9 @@ public class RandomCard extends User {
         String name = f_name[random.nextInt(f_name.length)] + l_name[random.nextInt(l_name.length)];
         return name;
     }
-     public long getQQ() {
-        long QQ;
-        QQ = 100000000 + (long) (random.nextDouble() * 800000000);
+     public Integer getQQ() {
+        Integer QQ;
+        QQ = 100000000 + (int) (random.nextDouble() * 800000000);
         return QQ;
     }
     public String getJob() {

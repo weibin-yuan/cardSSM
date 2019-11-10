@@ -4,6 +4,8 @@ import com.ywb.pojo.User;
 import com.ywb.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 //这里引入的包是servlet.ModelAndView不是portlet.ModelAndView！！！！！！！！！！！！
 import org.springframework.web.servlet.ModelAndView;
@@ -38,10 +40,25 @@ public class CardController {
         return mav;
     }
     @PostMapping("cards")
-    public ModelAndView add(User user) {
+    //在需要校验的pojo前，添加@Validated，在需要校验的pojo后添加BindingResult bindingResult接收校验出错信息
+    //注意！！@Validated和BindingResult bindingResult 是配对出现的，并且在形参里的顺序是固定的（一前一后）
+    public ModelAndView add(@Validated @ModelAttribute("user") User user, BindingResult bindingResult) {
+        ModelAndView mav = new ModelAndView();
+        //获取校验的错误信息
+        while (bindingResult.hasErrors()){
+/*           // 输出错误信息，此处可用在有单独错误信息jsp的地方
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            System.out.println("你说"+allErrors);
+            //将错误信息传至页面
+            mav.addObject("allErrors",allErrors);*/
+            mav.setViewName("add");
+            //出错则重新至添加页面
+            return mav;
+        }
         cardService.add(user);
-        ModelAndView mav = new ModelAndView("redirect:/cards");
+        mav = new ModelAndView("redirect:/cards");
         return mav;
+
     }
     @DeleteMapping("cards/{id}")
     public ModelAndView del(@PathVariable Integer id) {
@@ -49,7 +66,7 @@ public class CardController {
         ModelAndView mav = new ModelAndView("redirect:/cards");
         return mav;
     }
-    @GetMapping("cards/{id}")
+    @GetMapping("/cards/{id}")
     public ModelAndView updateGo(@PathVariable Integer id) {
         User user = cardService.selectById(id);
         ModelAndView mav = new ModelAndView("update");
